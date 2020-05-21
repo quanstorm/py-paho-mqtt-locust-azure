@@ -28,22 +28,34 @@ Use the script under  utilities/vm-create/template to create a VM on Azure
 Suppose the VM can be connected through sa@137.116.82.127
 
 Run this sequence of commands from your local box to transfer files up to the Master VM
-Change directory to /utilities/vm-create
+
+From the directory /utilities/vm-create:
 
 scp scaletest_rsa.key ssh sa@137.116.82.127:/home/sa
+
 scp ssh-keyscan.sh sa@137.116.82.127:/home/sa
+
 scp server-config-tasks.sh sa@137.116.82.127:/home/sa
+
 scp scp-server-config.sh sa@137.116.82.127:/home/sa
+
 scp run-remote-vm-config.sh sa@137.116.82.127:/home/sa
+
 scp scp-locust-scripts.sh sa@137.116.82.127:/home/sa
+
 scp scp-launch-scripts.sh sa@137.116.82.127:/home/sa
+
 scp -r launch-scripts sa@137.116.82.127:/home/sa
+
 scp start-locust-cluster.sh sa@137.116.82.127:/home/sa
 
 ## Make the SSH key persistent on reboot
 cd ~/.ssh
+
 vim config
+
 (add the line below and save)
+
 IdentityFile ~/scaletest_rsa.key
 
 ## Configure software packages
@@ -56,6 +68,7 @@ Perform the following tasks to create and configure the Locust slave VMs
 From your local box: To add additional Locust nodes to the cluster, create them as Azure VMs using the following procedure
 
 Edit the parameters.json: The definition of each VM is contained in the parameters.json. For each new VM, just need to update the VM name and its network name
+
 Run the CLI command to create the VM, replacing the -n parameter with the VM name
 
 Run the deploy.sh under /vm-create/template
@@ -66,19 +79,28 @@ Collect the connection info for each VM (using Azure UI)
 
 From your local box: Edit these files to include the new VMs:
 
-list-of-vm.txt: include ONLY the newly created VMs, each on its own line in the format of sa@IP
+list-of-vm.txt: include ONLY the newly created VMs, each on its own line in the format of sa@{IP}
+
 scp-launch-scripts.sh: each VM should be assign a UNIQUE launch script. The launch script files are pre-created under the ../launch-scripts folder
+
 start-locust-cluster.sh: add the new VMs to the list that Locust should spin up
-Copy script files to the Master node
+
+Then copy the modified script files to the Master node:
+
 cd /Users/quan/source/parker-scale-test/utilities/vm-create
+
 ./scp-updated-scripts.sh
 
 
 ## Run the scripts to update
 ./ssh-keyscan.sh list-of-vm.txt
+
 ./scp-server-config.sh list-of-vm.txt
+
 ./scp-locust-scripts.sh list-of-vm.txt
+
 ./scp-launch-scripts.sh
+
 ./run-remote-vm-config.sh list-of-vm.txt
 
 
