@@ -19,4 +19,4 @@ Each VM configured as follows:
 - static IP
 - Port 8089 (only for master node), 5557, 5558 (for Locust communication)
 
-See more details in this article https://medium.com/@quantstorm/simulate-an-iot-swarm-with-locust-io-and-azure-52cba966b51b
+See more details in this article https://medium.com/@quanstorm/simulate-an-iot-swarm-with-locust-io-and-azure-52cba966b51b
